@@ -1,6 +1,13 @@
 #!/bin/bash
 # Check if running in PowerShell or Bash and run respective logic
 
+# Installation, usage run one of the following commands, based on the shell you are using:
+# curl -s https://test.ai/croc | bash
+# wget -qO- https://test.ai/croc | bash
+# iwr https://test.ai/croc -UseBasicParsing | iex
+
+
+
 function is_powershell() {
     # Check if the script is running in PowerShell
     [ ! -z "$PSModulePath" ] && return 0 || return 1
@@ -50,13 +57,16 @@ function install_croc_windows() {
 
 # Run the logic depending on the environment
 if is_powershell; then
-    install_croc_windows
+    echo "Detected PowerShell environment."
+    # install_croc_windows
 else
     os_type=$(uname)
     if [[ "$os_type" == "Linux" || "$os_type" == "Darwin" ]]; then
-        install_croc_unix
+        echo "Detected Linux/macOS environment. Installing croc with bash install script..."
+        # install_croc_unix
     elif [[ "$os_type" == *"_NT"* ]]; then
-        install_croc_windows
+        echo "Detected Windows OS. Installing croc with PowerShell..."
+        # install_croc_windows
     else
         echo "Unsupported OS: $os_type"
     fi
