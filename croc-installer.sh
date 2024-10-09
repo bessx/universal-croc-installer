@@ -1,77 +1,55 @@
 #!/bin/bash
-# Check if running in PowerShell or Bash and run respective logic
 
 # Installation & Usage:
 # Run one of the following commands based on your shell environment:
 
 # For Linux/macOS (Bash):
-#   curl -s https://test.ai/croc | bash
-#   wget -qO- https://test.ai/croc | bash
+#   curl -Ls bess.ai/croc | bash
+#   wget -qO- bess.ai/croc | bash
 
 # For Windows (PowerShell):
-#   iwr https://test.ai/croc -UseBasicParsing | iex
+#   iwr bess.ai/croc -UseBasicParsing | iex
+#   irm -Uri bess.ai/croc | iex
+
+echo --% >/dev/null;: ' | out-null
+<#'
+
+#
+# Bash / Linux / macOS part
+#
+echo "Detected Linux/macOS or Bash environment. Installing croc with bash install script..."
+curl https://getcroc.schollz.com | bash
+
+exit #>
 
 
-function is_powershell() {
-    # Check if the script is running in PowerShell
-    [ ! -z "$PSModulePath" ] && return 0 || return 1
+#
+# PowerShell part
+#
+
+Write-Host "Detected Windows OS in PowerShell."
+
+if ($null -ne (Get-Command "choco" -ErrorAction SilentlyContinue)) {
+    Write-Host "choco found. Installing croc with choco..."
+    choco install croc -y
+    return
 }
 
-function command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
-
-# Bash / Linux / macOS Logic
-function install_croc_unix() {
-    echo "Detected Linux/macOS or Bash environment. Installing croc with bash install script..."
-    curl https://getcroc.schollz.com | bash
-}
-
-# PowerShell / Windows Logic
-function install_croc_windows() {
-    echo "Detected Windows OS in PowerShell."
-
-    # Check for choco
-    if command_exists "choco"; then
-        echo "choco found. Installing croc with choco..."
-        choco install croc -y
-        return
-    fi
-
-    # Check for scoop
-    if command_exists "scoop"; then
-        echo "scoop found. Installing croc with scoop..."
-        scoop install croc
-        return
-    fi
-
-    # Check for winget
-    if command_exists "winget"; then
-        echo "winget found. Installing croc with winget..."
-        winget install --id=schollz.croc -e
-        return
-    fi
-
-    # Install scoop if none of the above are available
-    echo "No package manager found. Installing scoop..."
-    powershell -Command "Set-ExecutionPolicy RemoteSigned -scope CurrentUser; iwr -useb get.scoop.sh | iex"
-    echo "Installing croc with scoop..."
+if ($null -ne (Get-Command "scoop" -ErrorAction SilentlyContinue)) {
+    Write-Host "scoop found. Installing croc with scoop..."
     scoop install croc
+    return
 }
 
-# Run the logic depending on the environment
-if is_powershell; then
-    echo "Detected PowerShell environment."
-    # install_croc_windows
-else
-    os_type=$(uname)
-    if [[ "$os_type" == "Linux" || "$os_type" == "Darwin" ]]; then
-        echo "Detected Linux/macOS environment. Installing croc with bash install script..."
-        # install_croc_unix
-    elif [[ "$os_type" == *"_NT"* ]]; then
-        echo "Detected Windows OS. Installing croc with PowerShell..."
-        # install_croc_windows
-    else
-        echo "Unsupported OS: $os_type"
-    fi
-fi
+if ($null -ne (Get-Command "winget" -ErrorAction SilentlyContinue)) {
+    Write-Host "winget found. Installing croc with winget..."
+    winget install --id=schollz.croc -e
+    return
+}
+
+Write-Host "No package manager found. Installing scoop..."
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# iwr -useb get.scoop.sh | iex
+irm -Uri get.scoop.sh | iex
+Write-Host "Installing croc with scoop..."
+scoop install croc
