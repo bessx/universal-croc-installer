@@ -8,8 +8,9 @@
 #   wget -qO- bess.ai/croc | bash
 
 # For Windows (PowerShell):
-#   iwr bess.ai/croc -UseBasicParsing | iex
 #   irm -Uri bess.ai/croc | iex
+#   iwr bess.ai/croc -UseBasicParsing | iex
+
 
 echo --% >/dev/null;: ' | out-null
 <#'
