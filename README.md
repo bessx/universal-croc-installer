@@ -17,12 +17,12 @@ This repository provides a cross-platform installer for [`croc`](https://github.
 If you're running a Linux or macOS system, or using a Bash shell (e.g., WSL or Git Bash on Windows), you can use one of the following commands to download and run the installer script:
 
 ```bash
-curl -Ls bess.ai/croc | bash
+wget -qO- bess.ai/croc | bash
+
 ```
 
 ```bash
-wget -qO- bess.ai/croc | bash
-
+curl -Ls bess.ai/croc | bash
 ```
 
 This command will:
@@ -31,13 +31,14 @@ This command will:
 
 ### For PowerShell Users (Windows)
 
-If you're running PowerShell on Windows, you can use the following command to download and run the installer script:
+If you're running PowerShell on Windows, you can use one of the following commands to download and run the installer script:
+
+```powershell
+irm -Uri bess.ai/croc | iex
+``` 
 
 ```powershell
 iwr bess.ai/croc -UseBasicParsing | iex
-``` 
-```powershell
-irm -Uri bess.ai/croc | iex
 ``` 
 
 This command will:
