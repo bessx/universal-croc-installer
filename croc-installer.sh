@@ -1,11 +1,15 @@
 #!/bin/bash
 # Check if running in PowerShell or Bash and run respective logic
 
-# Installation, usage run one of the following commands, based on the shell you are using:
-# curl -s https://bess.ai/croc | bash
-# wget -qO- https:///bess.ai/croc | bash
-# iwr https://bess.ai/croc -UseBasicParsing | iex
+# Installation & Usage:
+# Run one of the following commands based on your shell environment:
 
+# For Linux/macOS (Bash):
+#   curl -s https://test.ai/croc | bash
+#   wget -qO- https://test.ai/croc | bash
+
+# For Windows (PowerShell):
+#   iwr https://test.ai/croc -UseBasicParsing | iex
 
 
 function is_powershell() {
