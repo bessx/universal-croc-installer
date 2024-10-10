@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Universal Croc Installer ~by bess
+# https://github.com/bessx/universal-croc-installer
+
 # Installation & Usage:
 # Run one of the following commands based on your shell environment:
 
